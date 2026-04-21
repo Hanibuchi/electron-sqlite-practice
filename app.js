@@ -1,1 +1,0 @@
-console.log("こんにちは、Node.jsの世界へ！");
