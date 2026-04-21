@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>AI Task Monitor (PoC)</h1>
+    <input type="text" id="taskInput" placeholder="タスクを入力...">
+    <button onclick="saveTask()">Pythonに送る</button>
+    <button onclick="loadTasks()">DBから取得</button>
+    <ul id="taskList"></ul>
+
+    <script>
+        async function saveTask() {
+            const content = document.getElementById('taskInput').value;
+            const response = await fetch('http://127.0.0.1:8000/add_task', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content })
+            });
+            const data = await response.json();
+            alert(data.message);
+        }
+
+        async function loadTasks() {
+            const response = await fetch('http://127.0.0.1:8000/get_tasks');
+            const data = await response.json();
+            const list = document.getElementById('taskList');
+            list.innerHTML = data.tasks.map(t => `<li>${t}</li>`).join('');
+        }
+    </script>
+</body>
+
+</html>
